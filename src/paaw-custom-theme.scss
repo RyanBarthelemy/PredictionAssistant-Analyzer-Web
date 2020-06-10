@@ -1,0 +1,109 @@
+/* If you don't want to use a pre-built theme and instead want to create a custom theme, you need to create a SASS file.
+ Instructions here: https://material.angular.io/guide/theming#defining-a-custom-theme
+
+ A custom theme file does two things:
+   1: Imports the mat-core() Sass mixin. This includes all common styles that are used by multiple components. This should only be included once in your application. If this mixin is included multiple times, your application will end up with multiple copies of these common styles.
+   2: Defines a theme data structure as the composition of multiple palettes. This object can be created with either the mat-light-theme function or the mat-dark-theme function. The output of this function is then passed to the angular-material-theme mixin, which will output all of the corresponding styles for the theme.
+ */
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+/* For use in src/lib/core/theming/_palette.scss */
+//Color schemes from https://visme.co/blog/website-color-schemes/
+//Create the palettes below using http://mcg.mbitson.com
+$pal-paaw-primary: (
+  50 : #e2eced,
+  100 : #b8d1d1,
+  200 : #88b2b3,
+  300 : #589394,
+  400 : #357b7d,
+  500 : #116466,
+  600 : #0f5c5e,
+  700 : #0c5253,
+  800 : #0a4849,
+  900 : #053638,
+  A100 : #6ffbff,
+  A200 : #3cfaff,
+  A400 : #09f9ff,
+  A700 : #00e9ef,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$pal-paaw-accent: (
+  50 : #faf6f1,
+  100 : #f4e7dd,
+  200 : #ecd8c6,
+  300 : #e4c8af,
+  400 : #dfbc9d,
+  500 : #d9b08c,
+  600 : #d5a984,
+  700 : #cfa079,
+  800 : #ca976f,
+  900 : #c0875c,
+  A100 : #ffffff,
+  A200 : #fffaf6,
+  A400 : #ffdcc3,
+  A700 : #ffcdaa,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+//My color choices are bad, don't judge me.
+$paaw-primary: mat-palette($pal-paaw-primary, 700, 300, 900);
+$paaw-accent: mat-palette($pal-paaw-accent, 300, 200, 700);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+//I'm not a designer
+//don't judge my terrible color choices.
+
+// The warn palette is optional (defaults to red).
+$paaw-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$paaw-theme: mat-light-theme($paaw-primary, $paaw-accent, $paaw-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($paaw-theme);
+
+/* Each component that requires our custom palette theme needs its own scss file like navtabs.component-theme.scss
+  We import that component's scss file like you see below, and also include the theme mixins for each component (as noted by the comment above from Angular theming guide.
+*/
+@import "./app/navigation/navtabs/navtabs.component-theme.scss";
+@include navtabs-component-theme($paaw-theme)
