@@ -1,0 +1,4 @@
+.sidenav-list span { /* If just an html element, don't need dot. This is a named class so we need the dot at the start.
+We are targeting the <span> element, so we add the 'span' after it.*/
+  padding-left: 10px; /* Space between nav list icon and the text. */
+}

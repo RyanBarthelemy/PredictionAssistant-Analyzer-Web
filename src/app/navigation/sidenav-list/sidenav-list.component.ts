@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidenavListComponent implements OnInit {
 
+  @Output() SideNavItemClickedEvent = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  matListItemClicked_closeNavbar() {
+    this.SideNavItemClickedEvent.emit();
+  }
 }

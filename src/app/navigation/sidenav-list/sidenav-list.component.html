@@ -1,1 +1,18 @@
-<p>sidenav-list works!</p>
+<mat-nav-list class="sidenav-list">
+  <a mat-list-item routerLink="" (click)="matListItemClicked_closeNavbar()">
+    <mat-icon>home</mat-icon>
+    <span>Home</span>
+  </a>
+  <a mat-list-item routerLink="/markets/latest" (click)="matListItemClicked_closeNavbar()">
+    <mat-icon>insert_chart</mat-icon>
+    <span>Latest Market Info</span>
+  </a>
+  <a mat-list-item routerLink="/snapshots" (click)="matListItemClicked_closeNavbar()">
+    <mat-icon>format_list_numbered</mat-icon>
+    <span>Snapshots History</span>
+  </a>
+  <a mat-list-item routerLink="/offers" (click)="matListItemClicked_closeNavbar()">
+    <mat-icon>flash_on</mat-icon>
+    <span>More to come placeholder</span>
+  </a>
+</mat-nav-list>
