@@ -19,6 +19,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -39,11 +40,11 @@ import {MatButtonModule} from '@angular/material/button';
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
-    FlexLayoutModule,
+    FlexLayoutModule, /* See note at bottom */
     MatTabsModule,
     MatListModule,
     MatButtonModule,
-    /* See note at bottom */
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
