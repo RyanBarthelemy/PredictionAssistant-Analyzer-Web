@@ -1,8 +1,10 @@
 <p>snapshots works!</p>
 <br>
 
-<p>
-  {{snapshots}}
+<p *ngFor="let snapshotMini of snapshots">
+  {{snapshotMini.hashID}}
+  {{snapshotMini.timestampDisplay}}
+  {{snapshotMini.href}}
 </p>
 
 <p>
