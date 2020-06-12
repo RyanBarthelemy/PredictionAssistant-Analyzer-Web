@@ -1,0 +1,34 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Snapshot_Id Column -->
+    <ng-container matColumnDef="Snapshot_Id">
+      <th mat-header-cell *matHeaderCellDef> Snapshot Id </th>
+      <td mat-cell *matCellDef="let element">{{element.hashID}}</td>
+    </ng-container>
+
+    <!-- Timestamp Column -->
+    <ng-container matColumnDef="Timestamp">
+      <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+      <td mat-cell *matCellDef="let element">{{element.timestamp}}</td>
+    </ng-container>
+
+    <!-- Markets_Info Column -->
+    <ng-container matColumnDef="Markets_Info">
+      <th mat-header-cell *matHeaderCellDef> Markets Info </th>
+      <td mat-cell *matCellDef="let element"><a href="{{element.marketsLink}}">Markets Available</a></td>
+    </ng-container>
+
+    <!-- As_JSON Column -->
+    <ng-container matColumnDef="As_JSON">
+      <th mat-header-cell *matHeaderCellDef> As JSON </th>
+      <td mat-cell *matCellDef="let element"><a href="{{element.jsonLink}}">As JSON</a></td>
+    </ng-container>
+
+    <!-- Row Setup -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

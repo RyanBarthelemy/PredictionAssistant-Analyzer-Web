@@ -20,6 +20,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
+import { SnapshotMiniTableComponent } from './pages/snapshots/snapshot-mini-table/snapshot-mini-table.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import {HttpClientModule} from '@angular/common/http';
     ContractHistoryComponent,
     HeaderComponent,
     NavtabsComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    SnapshotMiniTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,8 @@ import {HttpClientModule} from '@angular/common/http';
     MatListModule,
     MatButtonModule,
     HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

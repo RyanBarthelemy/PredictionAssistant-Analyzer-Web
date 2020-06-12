@@ -16,12 +16,10 @@ export class SnapshotsComponent implements OnInit {
 
   ngOnInit(): void { // todo: create an http service that handles all requests and just returns the object(s) that components needs
     console.log('in ngOnInit for Snapshot component. Making HTTP GET request');
-  /* Fixed the CORS issue so the GET request is successfully getting data from the api.
-  Right now all this does is print out a bunch of 'object Object' statements in html.
-  We need to actually get a list/array of SnapshotMini objects and print those out in the html using an ngFor.
-  Need to read more on how to do this.
-  * */
 
+    // todo: extract http get requests to some service that handles that stuff.
+    //  Don't make each component know the required url, http responsibilities, and object mapping.
+    //  That should be someone else's job.
     this.httpClient.get('http://localhost:8080/api/snapshots/').subscribe((data: SnapshotMini[]) => {
       // console.log(data);
       this.snapshots = data;
@@ -30,4 +28,10 @@ export class SnapshotsComponent implements OnInit {
       // console.log(snapshotMini);
     });
   }
+
+  /* Fixed the CORS issue so the GET request is successfully getting data from the api.
+Right now all this does is print out a bunch of 'object Object' statements in html.
+We need to actually get a list/array of SnapshotMini objects and print those out in the html using an ngFor.
+Need to read more on how to do this.
+* */
 }
