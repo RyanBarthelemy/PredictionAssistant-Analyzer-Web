@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'snapshots/:hashId', component: MarketsAvailableComponent },
   { path: 'markets/:mid', component: MarketDataComponent },
   { path: 'markets/:mid/contracts/:cid', component: ContractHistoryComponent },
-  { path: 'markets', redirectTo: 'markets/latest', pathMatch: 'full' },
+  { path: 'markets', redirectTo: 'snapshots/latest', pathMatch: 'full' },
 ]; // sets up routes constant where you define your routes
 
 // configures NgModule imports and exports

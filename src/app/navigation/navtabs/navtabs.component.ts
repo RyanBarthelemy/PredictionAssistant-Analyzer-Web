@@ -16,7 +16,7 @@ export class NavtabsComponent implements OnInit {
         index: 0
       }, {
         label: 'Latest Market Info',
-        link: '/markets/latest',
+        link: '/snapshots/latest',
         index: 1
       }, {
         label: 'Snapshots History',

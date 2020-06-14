@@ -15,18 +15,6 @@ export class SnapshotsComponent implements OnInit {
   { }
 
   ngOnInit(): void { // todo: create an http service that handles all requests and just returns the object(s) that components needs
-    console.log('in ngOnInit for Snapshot component. Making HTTP GET request');
-
-    // todo: extract http get requests to some service that handles that stuff.
-    //  Don't make each component know the required url, http responsibilities, and object mapping.
-    //  That should be someone else's job.
-    this.httpClient.get('http://localhost:8080/api/snapshots/').subscribe((data: SnapshotMini[]) => {
-      // console.log(data);
-      this.snapshots = data;
-      // console.log('made request');
-      // const snapshotMini = new SnapshotMini(this.snapshots[0]);
-      // console.log(snapshotMini);
-    });
   }
 
   /* Fixed the CORS issue so the GET request is successfully getting data from the api.

@@ -23,6 +23,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { SnapshotMiniTableComponent } from './pages/snapshots/snapshot-mini-table/snapshot-mini-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
