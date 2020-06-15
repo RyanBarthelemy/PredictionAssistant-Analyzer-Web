@@ -1,1 +1,20 @@
-<p>markets-available works!</p>
+<br>
+<br>
+<div *ngIf="!error">
+  <div class="titleDiv">
+    <h1>Markets Info</h1>
+    <h3>List of all Markets available from Snapshot[{{snapshot.hashId}}]</h3>
+  </div>
+  <br>
+  <p>markets table goes here</p>
+  <br>
+</div>
+
+
+<div *ngIf="error">
+  <div class="titleDiv">
+  <h1>Whoops... Failed to load page...</h1>
+  <h3>Request for data failed with response code: {{errorStatus}}</h3>
+  <h3>Message: {{errorMessage}}</h3>
+  </div>
+</div>

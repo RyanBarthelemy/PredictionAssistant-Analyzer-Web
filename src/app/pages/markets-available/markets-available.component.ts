@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {Snapshot} from '../../../model/Snapshot';
 
 @Component({
   selector: 'app-markets-available',
@@ -8,24 +10,42 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class MarketsAvailableComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute,
-              private router: Router  ) { }
+  error: boolean;
+  errorStatus: number;
+  errorMessage: string;
+
+  snapshot: Snapshot;
+
+  constructor(private httpClient: HttpClient,
+              private route: ActivatedRoute,
+              private router: Router) {
+  }
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {
-      // stuff here
       const id = this.route.snapshot.paramMap.get('hashId');
       console.log('the id from url = ' + id);
 
-      if (id === 'latest'){
-        // return market info for latest snapshot  -- http://localhost:8080/api/snapshots/latest
-        console.log('Getting markets info for most recent snapshot');
-      }
-      else{
-        // get market info for snapshot with given id
-        // if it does not return a status code 200, then we figure out what to do.
-      }
+      // get the data for this snapshot id from the api page
+      console.log('making request to http://localhost:8080/api/snapshots/' + id);
+      this.httpClient
+        .get('http://localhost:8080/api/snapshots/' + id)
+        .subscribe(
+          (data: Snapshot) => this.buildMarkets(data),
+          error => this.buildErrorPage(error)
+        );
     });
   }
 
+  buildMarkets(data: Snapshot) {
+    this.error = false;
+    this.snapshot = data;
+  }
+
+  private buildErrorPage(error: any) {
+    this.error = true;
+    this.errorStatus = error.status;
+    this.errorMessage = error.error.message;
+  }
 }
