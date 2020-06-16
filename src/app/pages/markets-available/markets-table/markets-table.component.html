@@ -1,0 +1,38 @@
+<p>markets-table works!</p>
+<p>Snapshot id: {{snapshot.hashId}}</p>
+<p>{{snapshot.markets.length}} markets</p>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Market_Id Column -->
+    <ng-container matColumnDef="Market_Id">
+      <th mat-header-cell *matHeaderCellDef> Market Id </th>
+      <td mat-cell *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+
+    <!-- PI_Link Column -->
+    <ng-container matColumnDef="PI_Link">
+      <th mat-header-cell *matHeaderCellDef> "PredictIt Link </th>
+      <td mat-cell *matCellDef="let element"><a href="{{element.url}}">"PredictIt Link</a></td>
+    </ng-container>
+
+    <!-- Contracts Column -->
+    <ng-container matColumnDef="Contracts">
+      <th mat-header-cell *matHeaderCellDef> Contracts Info </th>
+      <td mat-cell *matCellDef="let element"><a href="'/markets/' + {{element.id}}">Contracts</a></td>
+    </ng-container>
+
+    <!-- Row Setup -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

@@ -24,6 +24,7 @@ import { SnapshotMiniTableComponent } from './pages/snapshots/snapshot-mini-tabl
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
+import { MarketsTableComponent } from './pages/markets-available/markets-table/markets-table.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {MatCardModule} from '@angular/material/card';
     NavtabsComponent,
     SidenavListComponent,
     SnapshotMiniTableComponent,
+    MarketsTableComponent,
   ],
   imports: [
     BrowserModule,
