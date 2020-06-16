@@ -3,6 +3,7 @@ import {Snapshot} from '../../../../model/Snapshot';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {Market} from '../../../../model/Market';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-markets-table',
@@ -14,18 +15,19 @@ export class MarketsTableComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @Input() snapshot: Snapshot;
   dataSource: any;
+
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.snapshot);
-    const dataSource = new MatTableDataSource<Market>(this.snapshot.markets);
-    dataSource.paginator = this.paginator;
+    of(this.snapshot).subscribe(
+      data => {
+        this.snapshot = data;
+        console.log('snapshot markets: ' + this.snapshot.markets);
+        this.dataSource = new MatTableDataSource<Market>(this.snapshot.markets);
+        this.dataSource.paginator = this.paginator;
+      },
+      error => console.log('error creating table, todo: send error back to parent so it knows to create error info DOM elements::: '
+                                + '\nErrorMessage: ' + error)
+    );
   }
-
-  buildTable(){
-    console.log(this.snapshot);
-    const dataSource = new MatTableDataSource<Market>(this.snapshot.markets);
-    dataSource.paginator = this.paginator;
-  }
-
 }
