@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {Snapshot} from '../../../model/Snapshot';
+import {DataService} from '../../../service/data-service/data.service';
 
 @Component({
   selector: 'app-markets-available',
@@ -16,9 +17,9 @@ export class MarketsAvailableComponent implements OnInit {
 
   snapshot: Snapshot;
 
-  constructor(private httpClient: HttpClient,
-              private route: ActivatedRoute,
-              private router: Router) {
+  constructor(private dataService: DataService,
+              private httpClient: HttpClient,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -27,12 +28,9 @@ export class MarketsAvailableComponent implements OnInit {
       const id = this.route.snapshot.paramMap.get('hashId');
       console.log('the id from url = ' + id);
 
-      // get the data for this snapshot id from the api page
-      console.log('making request to http://localhost:8080/api/snapshots/' + id);
-      this.httpClient
-        .get('http://localhost:8080/api/snapshots/' + id)
+      this.dataService.getSnapshot(id)
         .subscribe(
-          (data: Snapshot) => this.buildMarkets(data),
+          (snapshot: Snapshot) => this.buildMarkets(snapshot),
           error => this.buildErrorPage(error)
         );
     });
