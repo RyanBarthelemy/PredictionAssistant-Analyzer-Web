@@ -10,19 +10,20 @@
     <!-- Timestamp Column -->
     <ng-container matColumnDef="Timestamp">
       <th mat-header-cell *matHeaderCellDef> Timestamp </th>
-      <td mat-cell *matCellDef="let element">{{element.timestamp}}</td>
+      <td mat-cell *matCellDef="let element">{{element.timestampDisplay}}</td>
     </ng-container>
 
     <!-- Markets_Info Column -->
     <ng-container matColumnDef="Markets_Info">
       <th mat-header-cell *matHeaderCellDef> Markets Info </th>
-      <td mat-cell *matCellDef="let element"><a href="{{element.marketsLink}}">Markets Available</a></td>
+      <td mat-cell *matCellDef="let element"><a href="snapshots/{{element.hashID}}">Markets Available</a></td>
     </ng-container>
 
+    <!-- TODO: Fix the 'unsafe:' link prefix. Read about DOM Sanitizer. -->
     <!-- As_JSON Column -->
     <ng-container matColumnDef="As_JSON">
       <th mat-header-cell *matHeaderCellDef> As JSON </th>
-      <td mat-cell *matCellDef="let element"><a href="{{element.jsonLink}}">As JSON</a></td>
+      <td mat-cell *matCellDef="let element"><a href="localhost:8080/api/snapshots/{{element.hashID}}">As JSON</a></td>
     </ng-container>
 
     <!-- Row Setup -->

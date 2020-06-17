@@ -27,19 +27,4 @@ export class DataService {
       .get<SnapshotMini[]>('http://localhost:8080/api/snapshots/');
   }
 
-  buildDisplayableSnapshotsArray(snapshots: SnapshotMini[]) {
-    let displayableSnapshotMiniArr: SnapshotMiniDisplayable[];
-    displayableSnapshotMiniArr = [];
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < snapshots.length; i++) {
-      const smd = new SnapshotMiniDisplayable(
-        snapshots[i].hashID,
-        snapshots[i].timestampDisplay,
-        '/snapshots/' + snapshots[i].hashID,
-        'localhost:8080/api/snapshots/' + snapshots[i].hashID
-      );
-      displayableSnapshotMiniArr.push(smd);
-    }
-    return displayableSnapshotMiniArr;
-  }
 }
