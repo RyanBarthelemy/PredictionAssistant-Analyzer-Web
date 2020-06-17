@@ -1,7 +1,3 @@
-<p>markets-table works!</p>
-<p>Snapshot id: {{snapshot.hashId}}</p>
-<p>{{snapshot.markets.length}} markets</p>
-
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource">
 
@@ -20,7 +16,7 @@
     <!-- PI_Link Column -->
     <ng-container matColumnDef="PI_Link">
       <th mat-header-cell *matHeaderCellDef> "PredictIt Link </th>
-      <td mat-cell *matCellDef="let element"><a href="{{element.url}}">"PredictIt Link</a></td>
+      <td mat-cell *matCellDef="let element"><a href="{{element.url}}">PredictIt Link</a></td>
     </ng-container>
 
     <!-- Contracts Column -->

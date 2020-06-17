@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {SnapshotMini} from '../../../model/SnapshotMini';
+import {DataService} from '../../../service/data-service/data.service';
 
 @Component({
   selector: 'app-snapshots',
@@ -11,10 +11,15 @@ export class SnapshotsComponent implements OnInit {
 
   snapshots: SnapshotMini[];
 
-  constructor(private httpClient: HttpClient) // injecting the http client in the constructor here
+  constructor(private dataService: DataService) // injecting the http client in the constructor here
   { }
 
-  ngOnInit(): void { // todo: create an http service that handles all requests and just returns the object(s) that components needs
+  ngOnInit(): void {
+    this.dataService.getAllSnapshots()
+      .subscribe(
+        (data: SnapshotMini[]) => this.snapshots,
+        error => console.log(error)
+      );
   }
 
   /* Fixed the CORS issue so the GET request is successfully getting data from the api.

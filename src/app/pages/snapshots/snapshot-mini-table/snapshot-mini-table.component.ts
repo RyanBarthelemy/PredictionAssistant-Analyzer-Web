@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {SnapshotMini} from '../../../../model/SnapshotMini';
@@ -15,7 +15,7 @@ export class SnapshotMiniTableComponent implements OnInit {
   displayableSnapshotMiniArr: SnapshotMiniDisplayable[];
   dataSource = new MatTableDataSource<SnapshotMiniDisplayable>(this.displayableSnapshotMiniArr);
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  snapshots: SnapshotMini[];
+  @Input() snapshots: SnapshotMini[];
 
   constructor(private dataService: DataService) // injecting the http client in the constructor here
   {
