@@ -4,27 +4,31 @@ import {Snapshot} from '../../model/Snapshot';
 import {SnapshotMini} from '../../model/SnapshotMini';
 import {SnapshotMiniDisplayable} from '../../model/SnapshotMiniDisplayable';
 import {Observable, of} from 'rxjs';
+import {Market} from '../../model/Market';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  snapshot: Snapshot;
+  baseURL = 'http://localhost:8080/api/';
 
   constructor(private httpClient: HttpClient) {
   }
 
   getSnapshot(id: string) {
-    // get the data for this snapshot id from the api page
-    console.log('making request to http://localhost:8080/api/snapshots/' + id);
     return this.httpClient
-      .get<Snapshot>('http://localhost:8080/api/snapshots/' + id);
+      .get<Snapshot>(this.baseURL + 'snapshots/' + id);
   }
 
   getAllSnapshots(){
     return this.httpClient
-      .get<SnapshotMini[]>('http://localhost:8080/api/snapshots/');
+      .get<SnapshotMini[]>(this.baseURL + 'snapshots/');
   }
 
+  getMarketHistory(id: string){
+    console.log('making GET request to: ' + this.baseURL + 'markets/' + id);
+    return this.httpClient
+      .get<Market[]>(this.baseURL + 'markets/' + id);
+  }
 }

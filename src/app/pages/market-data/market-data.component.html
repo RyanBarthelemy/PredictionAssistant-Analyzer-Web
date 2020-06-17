@@ -1,1 +1,21 @@
-<p>market-data works!</p>
+<div *ngIf="!error">
+  <br>
+  <br>
+  <div class="titleDiv">
+    <h1>Market Data</h1>
+    <h4>Latest Data from Market: {{marketHistory[0].id}}</h4>
+  </div>
+  <br>
+  <h2 class="marketName">{{marketHistory[0].name}}</h2>
+  <!-- Table goes here, pretty small <app-snapshot-mini-table [snapshots]="snapshots"></app-snapshot-mini-table> -->
+  <br>
+  <!-- might build a graph of competing buy yes values. -->
+</div>
+
+<div *ngIf="error">
+  <div class="titleDiv">
+    <h1>Whoops... Failed to load page...</h1>
+    <h3>Request for data failed with response code: {{errorStatus}}</h3>
+    <h3>Message: {{errorMessage}}</h3>
+  </div>
+</div>

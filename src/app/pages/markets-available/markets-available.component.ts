@@ -18,14 +18,15 @@ export class MarketsAvailableComponent implements OnInit {
   snapshot: Snapshot;
 
   constructor(private dataService: DataService,
-              private httpClient: HttpClient,
               private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-
     this.route.params.subscribe(params => {
+
+      // snapshot does NOT refer to PA Snapshot. It is the ActivatedRouteSnapshot object
       const id = this.route.snapshot.paramMap.get('hashId');
+
       console.log('the id from url = ' + id);
 
       this.dataService.getSnapshot(id)
