@@ -28,6 +28,8 @@ import { MarketsTableComponent } from './pages/markets-available/markets-table/m
 import { MarketDataTableComponent } from './pages/market-data/market-data-table/market-data-table.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { MarketDataChartBuyYesComponent } from './pages/market-data/market-data-chart-buy-yes/market-data-chart-buy-yes.component';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import {MatInputModule} from '@angular/material/input';
     SnapshotMiniTableComponent,
     MarketsTableComponent,
     MarketDataTableComponent,
+    MarketDataChartBuyYesComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +64,7 @@ import {MatInputModule} from '@angular/material/input';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    ChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
