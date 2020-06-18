@@ -1,4 +1,10 @@
 <div class="mat-elevation-z8">
+
+  <mat-form-field>
+    <mat-label>---Search for specific market---</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. approval">
+  </mat-form-field>
+
   <table mat-table [dataSource]="dataSource">
 
     <!-- Market_Id Column -->

@@ -26,6 +26,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
 import { MarketsTableComponent } from './pages/markets-available/markets-table/markets-table.component';
 import { MarketDataTableComponent } from './pages/market-data/market-data-table/market-data-table.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { MarketDataTableComponent } from './pages/market-data/market-data-table/
     MatTableModule,
     MatPaginatorModule,
     MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
