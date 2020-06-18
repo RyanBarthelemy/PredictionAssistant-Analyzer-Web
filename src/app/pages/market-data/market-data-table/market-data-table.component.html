@@ -1,0 +1,44 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Market_Id Column -->
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Buy_Yes">
+      <th mat-header-cell *matHeaderCellDef> Buy Yes </th>
+      <td mat-cell *matCellDef="let element">{{element.bestBuyYesCost}}</td>
+    </ng-container>
+
+    <!-- PI_Link Column -->
+    <ng-container matColumnDef="Sell_Yes">
+      <th mat-header-cell *matHeaderCellDef> Sell Yes </th>
+      <td mat-cell *matCellDef="let element">{{element.bestBuyYesCost}}</td>
+    </ng-container>
+
+    <!-- Contracts Column -->
+    <ng-container matColumnDef="Buy_No">
+      <th mat-header-cell *matHeaderCellDef> Buy No </th>
+      <td mat-cell *matCellDef="let element">{{element.bestBuyNoCost}}</td>
+    </ng-container>
+
+    <!-- Contracts Column -->
+    <ng-container matColumnDef="Sell_No">
+      <th mat-header-cell *matHeaderCellDef> Sell No </th>
+      <td mat-cell *matCellDef="let element">{{element.bestSellNoCost}}</td>
+    </ng-container>
+
+    <!-- Contracts Column -->
+    <ng-container matColumnDef="History_Link">
+      <th mat-header-cell *matHeaderCellDef> History </th>
+      <td mat-cell *matCellDef="let element"><a href="/markets/{{marketHistory[0].id}}/contracts/{{element.id}}">Link</a></td>
+    </ng-container>
+
+    <!-- Row Setup -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

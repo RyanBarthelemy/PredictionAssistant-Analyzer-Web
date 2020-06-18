@@ -7,7 +7,7 @@
   </div>
   <br>
   <h2 class="marketName">{{marketHistory[0].name}}</h2>
-  <!-- Table goes here, pretty small <app-snapshot-mini-table [snapshots]="snapshots"></app-snapshot-mini-table> -->
+  <app-market-data-table [marketHistory]="marketHistory"></app-market-data-table>
   <br>
   <!-- might build a graph of competing buy yes values. -->
 </div>

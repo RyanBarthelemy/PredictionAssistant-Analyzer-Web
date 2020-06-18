@@ -25,6 +25,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
 import { MarketsTableComponent } from './pages/markets-available/markets-table/markets-table.component';
+import { MarketDataTableComponent } from './pages/market-data/market-data-table/market-data-table.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MarketsTableComponent } from './pages/markets-available/markets-table/m
     SidenavListComponent,
     SnapshotMiniTableComponent,
     MarketsTableComponent,
+    MarketDataTableComponent,
   ],
   imports: [
     BrowserModule,
