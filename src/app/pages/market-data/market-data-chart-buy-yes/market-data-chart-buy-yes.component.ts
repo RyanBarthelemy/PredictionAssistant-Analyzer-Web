@@ -23,6 +23,15 @@ export class MarketDataChartBuyYesComponent implements OnInit {
 
   lineChartOptions = {
     responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          max: 1,
+          min: 0,
+          stepSize: 0.05
+        }
+      }]
+    }
   };
 
   lineChartColors: Color[] = [
