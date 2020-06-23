@@ -1,11 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Market} from '../../../../model/Market';
-import {ChartDataSets} from 'chart.js';
-import {Color, Label} from 'ng2-charts';
 import {of} from 'rxjs';
+import * as CanvasJS from 'src/assets/canvasjs.min.js';
 
-// https://www.positronx.io/angular-chart-js-tutorial-with-ng2-charts-examples/
-// don't forget to 'npm install ng2-charts chart.js --save' if you need to
+// We want a multi series line chart like this: https://canvasjs.com/javascript-charts/multi-series-line-chart/
+// Info can be found here https://canvasjs.com/angular-charts/
+
+// todo: look at Angular CanvasJS chart examples I downloaded. Look for multi-series-line-chart, ideally with zooming and panning
 @Component({
   selector: 'app-market-data-chart-buy-yes',
   templateUrl: './market-data-chart-buy-yes.component.html',
@@ -15,77 +16,87 @@ export class MarketDataChartBuyYesComponent implements OnInit {
 
   @Input() marketHistory: Market[];
 
-  lineChartData: ChartDataSets[] = [
-    {data: [], label: ''},
-  ];
-
-  lineChartLabels: Label[];
-
-  lineChartOptions = {
-    responsive: true,
-    scales: {
-      yAxes: [{
-        ticks: {
-          max: 1,
-          min: 0,
-          stepSize: 0.05
-        }
-      }]
-    }
-  };
-
-  lineChartColors: Color[] = [
-    {
-      borderColor: 'black',
-      backgroundColor: 'transparent'
-    },
-  ];
-
-  lineChartLegend = true;
-  lineChartPlugins = [];
-  lineChartType = 'line';
-
   constructor() {
   }
 
   ngOnInit(): void {
     of(this.marketHistory).subscribe(
-      data => this.buildDataSet(),
+      data => this.buildMarketHistoryChart(),
       error => console.log(error)
     );
   }
 
-  private buildDataSet() {
-    const labels = [];
+  private buildMarketHistoryChart() {
+    const chart = new CanvasJS.Chart('chartContainer', {
+      zoomEnabled: true,
+      animationEnabled: true,
+      exportEnabled: false,
+      tooltip: {
+        shared: true
+      },
+      legend: {
+        cursor: 'pointer',
+        verticalAlign: 'top',
+        horizontalAlign: 'center',
+        dockInsidePlotArea: true,
+        // itemclick: toogleDataSeries
+      },
+      title: {
+        text: this.getTitle()
+      },
+      subtitles: [{
+        text: ''
+      }],
+      data: this.buildDataArray()
+    });
+    chart.render();
+  }
 
-    const priceArray = [];
-    const dataSetLabel = this.marketHistory[0].contracts[0].name;
-    this.lineChartLabels = [];
-    const latestSnapshotTime = new Date(this.marketHistory[0].timeStamp.toString().replace('T', ' ')).getTime();
+  private getTitle() {
+    return this.marketHistory[0].name;
+  }
 
+  private buildDataArray() {
+    const dataArr = new Array(this.marketHistory[0].contracts.length);
     // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.marketHistory.length; i++) {
-      priceArray.push(this.marketHistory[i].contracts[0].bestBuyYesCost);
-      const timestamp: Date = new Date(this.marketHistory[i].timeStamp.toString().replace('T', ' '));
-      const timeDifferenceMinutes = (latestSnapshotTime - timestamp.getTime()) / (1000 * 60);
-
-      // okay so converting UTC Date given by PredictIt to the local user's time zone that also correctly accounts for DST is unnecessarily
-      //  complicated. I also think it is easier to use the chart if data points are show how old the data is rather than a timestamp
-      // the following converts shows how old the data point is in minutes if less than an hour, or hours old otherwise.
-      if (timeDifferenceMinutes < 60){
-        labels.push(timeDifferenceMinutes.toFixed(0).toString() + ' mins ago');
-      }
-      else{
-        const timeDifferenceHours = (latestSnapshotTime - timestamp.getTime()) / (1000 * 60 * 60);
-        labels.push(timeDifferenceHours.toFixed(1).toString() + ' hours ago');
-      }
+    for (let i = 0; i < dataArr.length; i++) {
+      dataArr[i] = this.buildDataEntry(i);
     }
+    console.log('dataArr:' + dataArr);
+    return dataArr;
+  }
 
-    // we have to reverse these so the chart reads from left(oldest data) to right(newest data).
-    this.lineChartLabels = labels.reverse();
-    this.lineChartData[0].data = priceArray.reverse();
+  private buildDataEntry(contractIndex: number) {
+    return {
+      type: 'line',
+      axisYType: 'secondary',
+      name: this.marketHistory[0].contracts[contractIndex].name,
+      showInLegend: true,
+      markerSize: 0,
+      dataPoints: this.buildDataPointsArray(contractIndex)
+    };
+  }
 
-    this.lineChartData[0].label = dataSetLabel;
+  private buildDataPointsArray(contractIndex: number) {
+    const dataPointsArray = new Array(this.marketHistory.length);
+    console.log('There are ' + dataPointsArray.length + ' data points');
+    for (let i = 0; i < dataPointsArray.length; i++) {
+      dataPointsArray[i] = this.getDataPoint(i, contractIndex);
+      // console.log('dataPointsArray[' + i + '] x: ' + dataPointsArray[i].x); // laggy
+    }
+    return dataPointsArray;
+  }
 
+  private getDataPoint(historyIndex: number, contractIndex: number) {
+    return {
+      // todo: change how timestamp displays probably
+      x: this.getXString(historyIndex, contractIndex),
+      y: this.marketHistory[historyIndex].contracts[contractIndex].bestBuyYesCost
+    };
+  }
+
+  private getXString(historyIndex: number, contractIndex: number) {
+    // needs a date or number value
+    return new Date(this.marketHistory[historyIndex].timeStamp.toString().replace('T', ' '));
   }
 }
