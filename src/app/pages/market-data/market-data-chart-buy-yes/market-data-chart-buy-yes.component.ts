@@ -34,22 +34,38 @@ export class MarketDataChartBuyYesComponent implements OnInit {
       tooltip: {
         shared: true
       },
+      axisY2: {
+        minimum: 0,
+        maximum: 1,
+        title: 'BuyYes Price',
+      },
       legend: {
         cursor: 'pointer',
         verticalAlign: 'top',
         horizontalAlign: 'center',
-        dockInsidePlotArea: true,
-        // itemclick: toogleDataSeries
+        dockInsidePlotArea: false,
+        itemclick: itemclick
       },
       title: {
         text: this.getTitle()
       },
       subtitles: [{
-        text: ''
+        text: 'Buy-Yes Prices'
       }],
-      data: this.buildDataArray()
+      data: this.buildDataArray(),
     });
     chart.render();
+
+    function itemclick(e) {
+      // if the visibility setting is undefined or is set to visible, toggle it false. If not visible, set it visible.
+      // this is so when we click on a data series in the legend we can toggle that specific series on/off
+      if (typeof(e.dataSeries.visible) === 'undefined' || e.dataSeries.visible) {
+        e.dataSeries.visible = false;
+      } else{
+        e.dataSeries.visible = true;
+      }
+      chart.render();
+    }
   }
 
   private getTitle() {
@@ -73,6 +89,7 @@ export class MarketDataChartBuyYesComponent implements OnInit {
       name: this.marketHistory[0].contracts[contractIndex].name,
       showInLegend: true,
       markerSize: 0,
+      lineThickness: 4,
       dataPoints: this.buildDataPointsArray(contractIndex)
     };
   }
