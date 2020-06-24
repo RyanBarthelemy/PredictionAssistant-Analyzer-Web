@@ -31,10 +31,10 @@ export class MarketDataChartBuyYesComponent implements OnInit {
       zoomEnabled: true,
       animationEnabled: true,
       exportEnabled: false,
-      tooltip: {
+      toolTip: {
         shared: true
       },
-      axisY2: {
+      axisY: {
         minimum: 0,
         maximum: 1,
         title: 'BuyYes Price',
@@ -44,10 +44,11 @@ export class MarketDataChartBuyYesComponent implements OnInit {
         verticalAlign: 'top',
         horizontalAlign: 'center',
         dockInsidePlotArea: false,
-        itemclick: itemclick
+        itemclick
       },
       title: {
-        text: this.getTitle()
+        text: this.getTitle(),
+        fontSize: 36
       },
       subtitles: [{
         text: 'Buy-Yes Prices'
@@ -85,11 +86,12 @@ export class MarketDataChartBuyYesComponent implements OnInit {
   private buildDataEntry(contractIndex: number) {
     return {
       type: 'line',
-      axisYType: 'secondary',
+      axisYType: 'primary',
+      xValueFormatString: 'h:mmtt',
       name: this.marketHistory[0].contracts[contractIndex].name,
       showInLegend: true,
       markerSize: 0,
-      lineThickness: 4,
+      lineThickness: 5,
       dataPoints: this.buildDataPointsArray(contractIndex)
     };
   }
