@@ -8,12 +8,14 @@
   <br>
   <h2 class="marketName">{{marketHistory[0].name}}</h2>
   <app-market-data-table [marketHistory]="marketHistory"></app-market-data-table>
-  <br>
-  <!-- might build a graph of competing buy yes values. -->
+  <br><br><br>
   <app-market-data-chart-buy-yes [marketHistory]="marketHistory"></app-market-data-chart-buy-yes>
+  <br><br>
 </div>
 
 <div *ngIf="error">
+  <br>
+  <br>
   <div class="titleDiv">
     <h1>Whoops... Failed to load page...</h1>
     <h3>Request for data failed with response code: {{errorStatus}}</h3>

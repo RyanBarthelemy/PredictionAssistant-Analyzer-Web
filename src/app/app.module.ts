@@ -30,6 +30,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { MarketDataChartBuyYesComponent } from './pages/market-data/market-data-chart-buy-yes/market-data-chart-buy-yes.component';
 import {ChartsModule} from 'ng2-charts';
+import { ContractHistoryTableComponent } from './pages/contract-history/contract-history-table/contract-history-table.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {ChartsModule} from 'ng2-charts';
     MarketsTableComponent,
     MarketDataTableComponent,
     MarketDataChartBuyYesComponent,
+    ContractHistoryTableComponent,
   ],
   imports: [
     BrowserModule,

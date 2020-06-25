@@ -13,4 +13,5 @@ export interface Contract {
   id: number;
   shortName: null;
   status: string;
+  timestampDisplay: string;
 }

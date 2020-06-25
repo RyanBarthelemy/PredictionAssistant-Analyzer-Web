@@ -12,6 +12,7 @@ import {DataService} from '../../../../service/data-service/data.service';
 export class SnapshotMiniTableComponent implements OnInit {
   displayedColumns: string[] = ['Snapshot_Id', 'Timestamp', 'Markets_Info', 'As_JSON'];
   dataSource = new MatTableDataSource<SnapshotMini>();
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @Input() snapshots: SnapshotMini[];
 
