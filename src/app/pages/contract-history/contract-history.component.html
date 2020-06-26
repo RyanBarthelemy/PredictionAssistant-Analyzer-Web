@@ -6,7 +6,17 @@
     <h2>Contract ID: {{contractHistory[0].id}}</h2>
   </div>
   <br>
-  <app-contract-history-table [contractHistory]="contractHistory"></app-contract-history-table>
+
+  <app-contract-history-chart-buy-yes
+    [contractHistory]="contractHistory"
+    [marketName]="marketName">
+  </app-contract-history-chart-buy-yes>
+
+  <br><br>
+
+  <app-contract-history-table
+    [contractHistory]="contractHistory">
+  </app-contract-history-table>
 </div>
 
 <div *ngIf="error">

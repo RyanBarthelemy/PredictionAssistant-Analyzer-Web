@@ -31,6 +31,7 @@ import {MatInputModule} from '@angular/material/input';
 import { MarketDataChartBuyYesComponent } from './pages/market-data/market-data-chart-buy-yes/market-data-chart-buy-yes.component';
 import {ChartsModule} from 'ng2-charts';
 import { ContractHistoryTableComponent } from './pages/contract-history/contract-history-table/contract-history-table.component';
+import { ContractHistoryChartBuyYesComponent } from './pages/contract-history/contract-history-chart-buy-yes/contract-history-chart-buy-yes.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ContractHistoryTableComponent } from './pages/contract-history/contract
     MarketDataTableComponent,
     MarketDataChartBuyYesComponent,
     ContractHistoryTableComponent,
+    ContractHistoryChartBuyYesComponent,
   ],
   imports: [
     BrowserModule,
