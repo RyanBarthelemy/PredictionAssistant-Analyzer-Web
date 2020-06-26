@@ -4,7 +4,7 @@
     <!-- Timestamp Column -->
     <ng-container matColumnDef="Timestamp">
       <th mat-header-cell *matHeaderCellDef> Timestamp </th>
-      <td mat-cell *matCellDef="let element">{{element.timestampDisplay}}</td>
+      <td mat-cell *matCellDef="let element">{{element.timestamp.toLocaleString()}}</td>
     </ng-container>
 
     <!-- Buy_Yes Column -->

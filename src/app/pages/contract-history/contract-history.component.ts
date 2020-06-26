@@ -82,7 +82,7 @@ export class ContractHistoryComponent implements OnInit {
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < marketHistory.length; i++) {
         // tslint:disable-next-line:max-line-length
-        marketHistory[i].contracts[contractIndex].timestampDisplay = new Date(marketHistory[i].timeStamp.toString().replace('T', ' ')).toLocaleString();
+        marketHistory[i].contracts[contractIndex].timestamp = new Date(marketHistory[i].timeStamp.toString().replace('T', ' '));
         this.contractHistory.push(marketHistory[i].contracts[contractIndex]);
       }
       this.error = false;
