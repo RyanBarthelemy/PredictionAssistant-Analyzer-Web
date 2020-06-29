@@ -33,8 +33,8 @@ export class ContractHistoryChartBuyYesComponent implements OnInit {
         shared: true
       },
       axisY: {
-        minimum: 0,
-        maximum: 1,
+        minimum: this.getMinYAxis(),
+        maximum: this.getMaxYAxis(),
         title: 'BuyYes Price',
       },
       legend: {
@@ -76,7 +76,8 @@ export class ContractHistoryChartBuyYesComponent implements OnInit {
   private buildDataArray() {
     const dataArr = [];
     dataArr.push(this.buildContractHistoryDataSeries());
-    // dataArr.push(this.build10MinuteSimpleMovingAverageDataSeries());
+    dataArr.push(this.build_XX_MinuteSimpleMovingAverageDataSeries(10));
+    dataArr.push(this.build_XX_MinuteSimpleMovingAverageDataSeries(60));
     return dataArr;
   }
 
@@ -93,8 +94,17 @@ export class ContractHistoryChartBuyYesComponent implements OnInit {
     };
   }
 
-  private build10MinuteSimpleMovingAverageDataSeries() {
-    // todo
+  private build_XX_MinuteSimpleMovingAverageDataSeries(minutes: number) {
+    return {
+      type: 'line',
+      axisYType: 'primary',
+      xValueFormatString: 'h:mmtt',
+      name: minutes + 'min SMA',
+      showInLegend: true,
+      markerSize: 0,
+      lineThickness: 3,
+      dataPoints: this.build_XX_MinuteSimpleMovingAverage_DataSeriesDataPointsArray(minutes),
+    };
   }
 
   private buildContractHistoryDataSeriesDataPointsArray() {
@@ -110,5 +120,69 @@ export class ContractHistoryChartBuyYesComponent implements OnInit {
       x: this.contractHistory[index].timestamp,
       y: this.contractHistory[index].bestBuyYesCost
     };
+  }
+
+  private build_XX_MinuteSimpleMovingAverage_DataSeriesDataPointsArray(minutes: number) {
+    const dataPoints = [];
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.contractHistory.length; i++) {
+      const contractsToUse: Contract[] = this.getContractsToUse(i, minutes);
+
+      // could swap to !==0 but I think this is more readable.
+      if (contractsToUse.length === 0){ // if there are no contracts we can use to calc SMA, then continue (we can't divide by 0 etc)
+        // continue
+      }
+      else{
+        let sum = 0;
+        // tslint:disable-next-line:prefer-for-of
+        for (let j = 0; j < contractsToUse.length; j++) {
+          sum = sum + contractsToUse[j].bestBuyYesCost;
+        }
+        const average = sum / contractsToUse.length;
+        dataPoints.push({
+          x: this.contractHistory[i].timestamp,
+          y: average
+        });
+      }
+    }
+    return dataPoints;
+  }
+
+  private getContractsToUse(index: number, timeframeMins: number): Contract[] {
+    const contractsToUse = [];
+    const timeMax = this.contractHistory[index].timestamp.getTime(); // time in milli of the contract we are examining
+    const timeMin = timeMax - (timeframeMins * 60 * 1000); // time in milli of the cutoff for this SMA analysis
+
+    // examine each contract, if its timestamp is between timeMin and timeMax (inclusive), then add it to the contractsToUse collection.
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.contractHistory.length; i++) {
+      if (this.contractHistory[i].timestamp.getTime() >= timeMin
+          && this.contractHistory[i].timestamp.getTime() <= timeMax){
+        contractsToUse.push(this.contractHistory[i]);
+      }
+    }
+    return contractsToUse;
+  }
+
+  private getMinYAxis() {
+    let min = 101;
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.contractHistory.length; i++) {
+      if (this.contractHistory[i].bestBuyYesCost < min){
+        min = this.contractHistory[i].bestBuyYesCost;
+      }
+    }
+    return min - 0.02;
+  }
+
+  private getMaxYAxis() {
+    let max = -1;
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.contractHistory.length; i++) {
+      if (this.contractHistory[i].bestBuyYesCost > max){
+        max = this.contractHistory[i].bestBuyYesCost;
+      }
+    }
+    return max + 0.02;
   }
 }
