@@ -32,6 +32,7 @@ import { MarketDataChartBuyYesComponent } from './pages/market-data/market-data-
 import {ChartsModule} from 'ng2-charts';
 import { ContractHistoryTableComponent } from './pages/contract-history/contract-history-table/contract-history-table.component';
 import { ContractHistoryChartBuyYesComponent } from './pages/contract-history/contract-history-chart-buy-yes/contract-history-chart-buy-yes.component';
+import { ContractHistoryAnalysisComponent } from './pages/contract-history/contract-history-analysis/contract-history-analysis.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ContractHistoryChartBuyYesComponent } from './pages/contract-history/co
     MarketDataChartBuyYesComponent,
     ContractHistoryTableComponent,
     ContractHistoryChartBuyYesComponent,
+    ContractHistoryAnalysisComponent,
   ],
   imports: [
     BrowserModule,
