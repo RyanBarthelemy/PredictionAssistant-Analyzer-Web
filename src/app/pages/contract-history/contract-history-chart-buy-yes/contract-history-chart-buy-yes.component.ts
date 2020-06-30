@@ -24,7 +24,7 @@ export class ContractHistoryChartBuyYesComponent implements OnInit {
   }
 
   private buildContractHistoryChart() {
-    console.log('contract history length: ' + this.contractHistory.length);
+    // console.log('contract history length: ' + this.contractHistory.length);
     const chart = new CanvasJS.Chart('chartContainer', {
       zoomEnabled: true,
       animationEnabled: true,
@@ -44,10 +44,10 @@ export class ContractHistoryChartBuyYesComponent implements OnInit {
         dockInsidePlotArea: false,
         itemclick
       },
-      title: {
-        text: this.getTitle(),
-        fontSize: 36
-      },
+      // title: {
+      //  text: this.getTitle(),
+      //  fontSize: 36
+      // },
       data: this.buildDataArray(),
     });
     chart.render();

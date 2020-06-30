@@ -56,10 +56,12 @@ export class ContractHistoryComponent implements OnInit {
   }
 
   private buildSuccessPage(marketHistory: Market[], cid: number) {
+    // console.log('buildSuccessPage called...');
     this.buildContractHistory(marketHistory, cid);
   }
 
   private buildContractHistory(marketHistory: Market[], cid: number) {
+    // console.log('buildContractHistory called');
     this.contractHistory = [];
     this.marketName = marketHistory[0].name;
     this.marketId = marketHistory[0].id;
@@ -78,6 +80,7 @@ export class ContractHistoryComponent implements OnInit {
       this.errorStatus = 404;
       this.errorMessage = 'Found market with id: ' + this.marketId + ', but could not find Contract in that Market with contractId: ' + cid;
     } else {
+      // console.log('In buildContractHistory else condition. marketHistory.length = ' + marketHistory.length);
       // tslint:disable-next-line:prefer-for-of
       for (let i = 0; i < marketHistory.length; i++) {
         // tslint:disable-next-line:max-line-length

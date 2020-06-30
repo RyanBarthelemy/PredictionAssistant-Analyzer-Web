@@ -21,12 +21,14 @@ export class ContractHistoryAnalysisComponent implements OnInit {
 
   ngOnInit(): void {
     of(this.contractHistory).subscribe(
-      data => this.analyzeContractHistory(),
+      data => this.analyzeContractHistory(data),
       error => console.log(error)
     );
   }
 
-  private analyzeContractHistory() {
+  private analyzeContractHistory(data) {
+    this.contractHistory = data;
+    console.log(this.contractHistory.length);
     console.log('got to analyze Contract History method');
     this.move10Message = this.getMoveMessage(10);
     this.move60Message = this.getMoveMessage(60);
@@ -39,13 +41,13 @@ export class ContractHistoryAnalysisComponent implements OnInit {
     console.log('sma60: ' + this.sma60);
 
     if (this.sma60 - this.sma10 >= 0.02){
-      this.BuySellHold = 'Sell';
+      this.BuySellHold = 'Sell -- Moving Averages showing a sell signal.';
     }
     else if (this.sma10 - this.sma60 >= 0.02){
-      this.BuySellHold = 'Buy';
+      this.BuySellHold = 'Buy -- Moving Averages showing a buy signal.';
     }
     else{
-      this.BuySellHold = 'Hold';
+      this.BuySellHold = 'Hold -- Moving Averages not signaling buy or sell.';
     }
   }
 

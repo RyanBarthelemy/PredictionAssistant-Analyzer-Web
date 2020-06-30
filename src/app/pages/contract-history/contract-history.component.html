@@ -1,19 +1,15 @@
-<div *ngIf="!error">
+<div *ngIf="!error && contractHistory != undefined">
   <br>
   <br>
   <div class="titleDiv">
-    <h1>Contract ID: {{contractHistory[0].id}}</h1>
+    <h1>{{getMarketAndContractName()}}</h1>
   </div>
   <br>
-
+  <app-contract-history-analysis [contractHistory]="contractHistory"></app-contract-history-analysis>
   <app-contract-history-chart-buy-yes
     [contractHistory]="contractHistory"
     [marketName]="marketName">
   </app-contract-history-chart-buy-yes>
-
-  <br><br>
-
-  <app-contract-history-analysis [contractHistory]="contractHistory"></app-contract-history-analysis>
 
   <br><br>
   <app-contract-history-table
