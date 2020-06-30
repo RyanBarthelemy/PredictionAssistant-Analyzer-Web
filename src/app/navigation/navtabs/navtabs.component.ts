@@ -25,7 +25,7 @@ export class NavtabsComponent implements OnInit {
       },
       {
         label: 'Current Movers_nyi',
-        link: '/',
+        link: '/movers',
         index: 3
       },
       {

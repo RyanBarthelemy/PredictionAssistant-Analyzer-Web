@@ -7,6 +7,7 @@ import {SnapshotsComponent} from './pages/snapshots/snapshots.component';
 import {MarketsAvailableComponent} from './pages/markets-available/markets-available.component';
 import {MarketDataComponent} from './pages/market-data/market-data.component';
 import {ContractHistoryComponent} from './pages/contract-history/contract-history.component';
+import {MoversComponent} from './pages/movers/movers.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'snapshots/:hashId', component: MarketsAvailableComponent },
   { path: 'markets/:mid', component: MarketDataComponent },
   { path: 'markets/:mid/contracts/:cid', component: ContractHistoryComponent },
+  { path: 'movers', component: MoversComponent },
   { path: 'markets', redirectTo: 'snapshots/latest', pathMatch: 'full' },
 ]; // sets up routes constant where you define your routes
 
