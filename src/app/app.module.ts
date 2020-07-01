@@ -34,6 +34,7 @@ import { ContractHistoryTableComponent } from './pages/contract-history/contract
 import { ContractHistoryChartBuyYesComponent } from './pages/contract-history/contract-history-chart-buy-yes/contract-history-chart-buy-yes.component';
 import { ContractHistoryAnalysisComponent } from './pages/contract-history/contract-history-analysis/contract-history-analysis.component';
 import { MoversComponent } from './pages/movers/movers.component';
+import { MoversTableComponent } from './pages/movers/movers-table/movers-table.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { MoversComponent } from './pages/movers/movers.component';
     ContractHistoryChartBuyYesComponent,
     ContractHistoryAnalysisComponent,
     MoversComponent,
+    MoversTableComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,34 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Movement Column -->
+    <ng-container matColumnDef="Movement">
+      <th mat-header-cell *matHeaderCellDef> Movement </th>
+      <td mat-cell *matCellDef="let element">{{element.movement}}</td>
+    </ng-container>
+
+    <!-- Contract Column -->
+    <ng-container matColumnDef="Contract">
+      <th mat-header-cell *matHeaderCellDef> Contract </th>
+      <td mat-cell *matCellDef="let element">{{element.contractName}}</td>
+    </ng-container>
+
+    <!-- Market Column -->
+    <ng-container matColumnDef="Market">
+      <th mat-header-cell *matHeaderCellDef> Market </th>
+      <td mat-cell *matCellDef="let element">{{element.marketName}}</td>
+    </ng-container>
+
+    <!-- Link Column -->
+    <ng-container matColumnDef="Link">
+      <th mat-header-cell *matHeaderCellDef> Link to Contract Page </th>
+      <td mat-cell *matCellDef="let element"><a href="/markets/{{element.mid}}/contracts/{{element.cid}}">Link</a></td>
+    </ng-container>
+
+    <!-- Row Setup -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 100]" showFirstLastButtons></mat-paginator>
+</div>

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Snapshot} from '../../../model/Snapshot';
 import {DataService} from '../../../service/data-service/data.service';
 import {SnapshotMini} from '../../../model/SnapshotMini';
 import {Market} from '../../../model/Market';
 import {Contract} from '../../../model/Contract';
+import {Mover} from '../../../model/Mover';
 
 @Component({
   selector: 'app-movers',
@@ -18,8 +19,12 @@ export class MoversComponent implements OnInit {
   currentSnapshot: Snapshot;
   earlierSnapshot: Snapshot;
 
-  constructor(private dataService: DataService) { }
+  movers: Mover[];
 
+  constructor(private dataService: DataService) {
+  }
+
+  // todo: add ability to change timeframe, need html elements and code to handle re-calculating / getting new data / etc
   ngOnInit(): void {
     this.timeframe = this.DEFAULT_TIMEFRAME;
     this.dataService.getAllSnapshots().subscribe(
@@ -33,13 +38,13 @@ export class MoversComponent implements OnInit {
             // console.log('Earlier Snapshot HashID: ' + earlierSnapshotHashId);
             // console.log('Current Snapshot HashID: ' + this.currentSnapshot.hashId);
             this.dataService.getSnapshot(earlierSnapshotHashId).subscribe(
-            (snapshotEarlier: Snapshot) => {
-              this.earlierSnapshot = snapshotEarlier;
-              // console.log('Earlier Timestamp: ' + this.earlierSnapshot.timestamp);
-              // console.log('Most Recent Timestamp:' + this.currentSnapshot.timestamp);
-              // console.log('Time Difference: ' + (this.currentSnapshot.timestamp - this.earlierSnapshot.timestamp));
-              this.calculateMovers();
-            },
+              (snapshotEarlier: Snapshot) => {
+                this.earlierSnapshot = snapshotEarlier;
+                // console.log('Earlier Timestamp: ' + this.earlierSnapshot.timestamp);
+                // console.log('Most Recent Timestamp:' + this.currentSnapshot.timestamp);
+                // console.log('Time Difference: ' + (this.currentSnapshot.timestamp - this.earlierSnapshot.timestamp));
+                this.calculateMovers();
+              },
               error => this.buildError(error)
             );
           },
@@ -62,17 +67,17 @@ export class MoversComponent implements OnInit {
     // console.log(snapshotMinis[0].timestampDisplay);
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < snapshotMinis.length; i++) {
-      const timeDiffCurrent = Math.abs(this.currentSnapshot.timestamp - (new Date(snapshotMinis[i].timestampDisplay).getTime()) );
+      const timeDiffCurrent = Math.abs(this.currentSnapshot.timestamp - (new Date(snapshotMinis[i].timestampDisplay).getTime()));
       // console.log(i + ': timeDiffCurrent: ' + timeDiffCurrent);
       // console.log(Math.abs(timeDiffCurrent - timeFrameMilli));
       // console.log('TimeDifference: ' + Math.abs(timeDiffCurrent - timeFrameMilli));
-      if (Math.abs(timeDiffCurrent - timeFrameMilli) < timeDiff){
+      if (Math.abs(timeDiffCurrent - timeFrameMilli) < timeDiff) {
         timeDiff = Math.abs(timeDiffCurrent - timeFrameMilli);
         indexToUse = i;
         // console.log('Updated indexToUse to = ' + indexToUse);
       }
     }
-    if (indexToUse === -1){
+    if (indexToUse === -1) {
       return null;
     }
     // console.log('earlier snapshot hashId: ' + snapshotMinis[indexToUse].hashID);
@@ -80,12 +85,13 @@ export class MoversComponent implements OnInit {
   }
 
   private calculateMovers() {
+    this.movers = [];
     // for each contract in each market, examine the buyYes difference. If it exists then do something with it.
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.currentSnapshot.markets.length; i++) {
       // the market may not be contained in the earlier snapshot, ie the market may be new or something, so we need to check.
       const indexOfMarketInEarlierSnapshot = this.getMarketIndexById(this.earlierSnapshot, this.currentSnapshot.markets[i].id);
-      if (indexOfMarketInEarlierSnapshot === null){
+      if (indexOfMarketInEarlierSnapshot === null) {
         // console.log('indexOfMarketInEarlierSnapshot is NULL');
         continue;
       }
@@ -97,7 +103,7 @@ export class MoversComponent implements OnInit {
       // tslint:disable-next-line:prefer-for-of
       for (let j = 0; j < marketNow.contracts.length; j++) {
         const indexOfContractInEarlierMarket = this.getContractIndexById(marketPrev, marketNow.contracts[j].id);
-        if (indexOfContractInEarlierMarket === null){
+        if (indexOfContractInEarlierMarket === null) {
           console.log('indexOfContractInEarlierMarket is NULL');
           continue;
         }
@@ -106,19 +112,38 @@ export class MoversComponent implements OnInit {
 
         const priceDifference = contractNow.bestBuyYesCost - contractPrev.bestBuyYesCost;
         // console.log(priceDifference);
-        if (Math.abs(priceDifference) > 0){
+        if (Math.abs(priceDifference) > 0) {
           console.log(priceDifference.toFixed(2) + ' -- ' + contractNow.name + ' -- ' + marketNow.name);
+          const mover: Mover = {
+            marketName: marketNow.name,
+            contractName: contractNow.name,
+            mid: marketNow.id,
+            cid: contractNow.id,
+            movement: Math.round((priceDifference * 100)),
+            timeframe: this.timeframe
+          };
+          if (mover.marketName === mover.contractName){
+            mover.contractName = 'Yes/No';
+          }
 
-          // todo: throw this info into some array we can work with later on.
+          // If a contract has no shares available to buy it counts the price as 0...
+          // So, for ex, a 'solved' contract worth 0.95 might not have any more shares available, so price would then show as 0
+          // This makes movement show a difference of -0.95 which is huge movement but isn't real or meaningful for us, so we ignore it.
+          if (Math.abs(mover.movement) < 95){
+            this.movers.push(mover);
+          }
         }
       }
     }
+    // we want to sort the list of movers so the biggest movers are first regardless of + or - movement
+    this.movers.sort((a, b) => Math.abs(a.movement) < Math.abs(b.movement) ? 1 : Math.abs(a.movement) > Math.abs(b.movement) ? -1 : 0);
+    console.log('movers length: ' + this.movers.length);
   }
 
   private getMarketIndexById(earlierSnapshot: Snapshot, id: number) {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < earlierSnapshot.markets.length; i++) {
-      if (earlierSnapshot.markets[i].id === id){
+      if (earlierSnapshot.markets[i].id === id) {
         return i;
       }
     }
@@ -127,7 +152,7 @@ export class MoversComponent implements OnInit {
 
   private getContractIndexById(marketPrev: Market, id: number) {
     for (let i = 0; i < marketPrev.contracts.length; i++) {
-      if (marketPrev.contracts[i].id === id){
+      if (marketPrev.contracts[i].id === id) {
         return i;
       }
     }
