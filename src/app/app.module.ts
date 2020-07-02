@@ -35,6 +35,7 @@ import { ContractHistoryChartBuyYesComponent } from './pages/contract-history/co
 import { ContractHistoryAnalysisComponent } from './pages/contract-history/contract-history-analysis/contract-history-analysis.component';
 import { MoversComponent } from './pages/movers/movers.component';
 import { MoversTableComponent } from './pages/movers/movers-table/movers-table.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { MoversTableComponent } from './pages/movers/movers-table/movers-table.c
     MatFormFieldModule,
     MatInputModule,
     ChartsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

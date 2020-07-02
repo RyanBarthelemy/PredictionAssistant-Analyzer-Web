@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Snapshot} from '../../../model/Snapshot';
 import {DataService} from '../../../service/data-service/data.service';
 import {SnapshotMini} from '../../../model/SnapshotMini';
 import {Market} from '../../../model/Market';
 import {Contract} from '../../../model/Contract';
 import {Mover} from '../../../model/Mover';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-movers',
@@ -20,38 +21,19 @@ export class MoversComponent implements OnInit {
   earlierSnapshot: Snapshot;
 
   movers: Mover[];
+  timeframeInputField: number;
 
   constructor(private dataService: DataService) {
   }
 
-  // todo: add ability to change timeframe, need html elements and code to handle re-calculating / getting new data / etc
+  // TODO: Fix bug/issue -- movers array is being updated and has correct data in this component, but the movers-table component
+  // TODO:     which takes movers as an @Input() is not being updated.
+
   ngOnInit(): void {
     this.timeframe = this.DEFAULT_TIMEFRAME;
-    this.dataService.getAllSnapshots().subscribe(
-      (snapshotMinis: SnapshotMini[]) => {
-        // console.log(snapshotMinis.length);
-        this.dataService.getSnapshot(snapshotMinis[0].hashID).subscribe(
-          (snapshotCurrent: Snapshot) => {
-            this.currentSnapshot = snapshotCurrent;
-            // console.log('current snapshot timestamp: ' + new Date(snapshotCurrent.timestamp));
-            const earlierSnapshotHashId = this.getEarlierSnapId(snapshotMinis);
-            // console.log('Earlier Snapshot HashID: ' + earlierSnapshotHashId);
-            // console.log('Current Snapshot HashID: ' + this.currentSnapshot.hashId);
-            this.dataService.getSnapshot(earlierSnapshotHashId).subscribe(
-              (snapshotEarlier: Snapshot) => {
-                this.earlierSnapshot = snapshotEarlier;
-                // console.log('Earlier Timestamp: ' + this.earlierSnapshot.timestamp);
-                // console.log('Most Recent Timestamp:' + this.currentSnapshot.timestamp);
-                // console.log('Time Difference: ' + (this.currentSnapshot.timestamp - this.earlierSnapshot.timestamp));
-                this.calculateMovers();
-              },
-              error => this.buildError(error)
-            );
-          },
-          error => this.buildError(error)
-        );
-      },
-      error => this.buildError(error)
+    of(this.timeframe).subscribe(
+      timeframe => this.buildPage(),
+      error => console.log(error)
     );
   }
 
@@ -113,7 +95,7 @@ export class MoversComponent implements OnInit {
         const priceDifference = contractNow.bestBuyYesCost - contractPrev.bestBuyYesCost;
         // console.log(priceDifference);
         if (Math.abs(priceDifference) > 0) {
-          console.log(priceDifference.toFixed(2) + ' -- ' + contractNow.name + ' -- ' + marketNow.name);
+          // console.log(priceDifference.toFixed(2) + ' -- ' + contractNow.name + ' -- ' + marketNow.name);
           const mover: Mover = {
             marketName: marketNow.name,
             contractName: contractNow.name,
@@ -157,5 +139,46 @@ export class MoversComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  private timeframeButtonClicked() {
+    console.log('button click test -- ' + this.timeframeInputField);
+    if (isNaN(this.timeframeInputField)){
+      console.log(this.timeframeInputField + ' is not a number...');
+      return;
+    }
+    this.timeframe = this.timeframeInputField;
+    console.log('this.timeframe = ' + this.timeframe);
+    this.buildPage();
+  }
+
+  private buildPage() {
+    this.dataService.getAllSnapshots().subscribe(
+      (snapshotMinis: SnapshotMini[]) => {
+        // console.log(snapshotMinis.length);
+        this.dataService.getSnapshot(snapshotMinis[0].hashID).subscribe(
+          (snapshotCurrent: Snapshot) => {
+            this.currentSnapshot = snapshotCurrent;
+            // console.log('current snapshot timestamp: ' + new Date(snapshotCurrent.timestamp));
+            const earlierSnapshotHashId = this.getEarlierSnapId(snapshotMinis);
+            // console.log('Earlier Snapshot HashID: ' + earlierSnapshotHashId);
+            // console.log('Current Snapshot HashID: ' + this.currentSnapshot.hashId);
+            this.dataService.getSnapshot(earlierSnapshotHashId).subscribe(
+              (snapshotEarlier: Snapshot) => {
+                this.earlierSnapshot = snapshotEarlier;
+                // console.log('Earlier Timestamp: ' + this.earlierSnapshot.timestamp);
+                // console.log('Most Recent Timestamp:' + this.currentSnapshot.timestamp);
+                // console.log('Time Difference: ' + (this.currentSnapshot.timestamp - this.earlierSnapshot.timestamp));
+                this.calculateMovers();
+                return;
+              },
+              error => this.buildError(error)
+            );
+          },
+          error => this.buildError(error)
+        );
+      },
+      error => this.buildError(error),
+    );
   }
 }

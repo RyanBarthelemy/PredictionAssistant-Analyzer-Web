@@ -4,6 +4,17 @@
 </div>
 <br>
 
+<div class="timeframeDiv">
+  <mat-form-field>
+    <mat-placeholder>Timeframe</mat-placeholder>
+    <mat-hint align="start"><strong>minutes</strong></mat-hint>
+    <input [(ngModel)]='timeframeInputField' matInput type="text">
+    <button mat-button matSuffix mat-stroked-button aria-label="search" (click)="timeframeButtonClicked()">Go</button>
+  </mat-form-field>
+</div>
+
+<br>
+
 <app-movers-table [movers]="movers"></app-movers-table>
 <br>
 <br>
