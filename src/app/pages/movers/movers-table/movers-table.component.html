@@ -19,10 +19,17 @@
       <td mat-cell *matCellDef="let element">{{element.marketName}}</td>
     </ng-container>
 
-    <!-- Link Column -->
-    <ng-container matColumnDef="Link">
-      <th mat-header-cell *matHeaderCellDef> Link to Contract Page </th>
-      <td mat-cell *matCellDef="let element"><a href="/markets/{{element.mid}}/contracts/{{element.cid}}">Link</a></td>
+    <!-- MarketLink Column -->
+    <ng-container matColumnDef="MarketLink">
+      <th mat-header-cell *matHeaderCellDef> Market Link </th>
+      <td mat-cell *matCellDef="let element"><a href="/markets/{{element.mid}}">Market</a></td>
+    </ng-container>
+
+
+    <!-- ContractLink Column -->
+    <ng-container matColumnDef="ContractLink">
+      <th mat-header-cell *matHeaderCellDef> Contract Link </th>
+      <td mat-cell *matCellDef="let element"><a href="/markets/{{element.mid}}/contracts/{{element.cid}}">Contract</a></td>
     </ng-container>
 
     <!-- Row Setup -->

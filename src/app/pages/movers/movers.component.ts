@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import {Snapshot} from '../../../model/Snapshot';
 import {DataService} from '../../../service/data-service/data.service';
 import {SnapshotMini} from '../../../model/SnapshotMini';
@@ -25,9 +25,6 @@ export class MoversComponent implements OnInit {
 
   constructor(private dataService: DataService) {
   }
-
-  // TODO: Fix bug/issue -- movers array is being updated and has correct data in this component, but the movers-table component
-  // TODO:     which takes movers as an @Input() is not being updated.
 
   ngOnInit(): void {
     this.timeframe = this.DEFAULT_TIMEFRAME;
@@ -141,7 +138,7 @@ export class MoversComponent implements OnInit {
     return null;
   }
 
-  private timeframeButtonClicked() {
+  public timeframeButtonClicked() {
     console.log('button click test -- ' + this.timeframeInputField);
     if (isNaN(this.timeframeInputField)){
       console.log(this.timeframeInputField + ' is not a number...');
@@ -153,6 +150,7 @@ export class MoversComponent implements OnInit {
   }
 
   private buildPage() {
+    console.log('buildPage called');
     this.dataService.getAllSnapshots().subscribe(
       (snapshotMinis: SnapshotMini[]) => {
         // console.log(snapshotMinis.length);
@@ -170,7 +168,6 @@ export class MoversComponent implements OnInit {
                 // console.log('Most Recent Timestamp:' + this.currentSnapshot.timestamp);
                 // console.log('Time Difference: ' + (this.currentSnapshot.timestamp - this.earlierSnapshot.timestamp));
                 this.calculateMovers();
-                return;
               },
               error => this.buildError(error)
             );
