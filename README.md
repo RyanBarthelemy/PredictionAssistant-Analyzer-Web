@@ -1,5 +1,11 @@
 # PredictionAssistantAnalyzerWeb
 
+The goal of this project is to provide greater accessibility to PredictIt market data, specifically past market data, as well as analyzers to help the user interpret the data at a glance.
+
+This also is a project I'm using to help me learn more Angular/Typescript/Node/etc without any guide to follow, so it is unlikely that it will be developed to a final commercial/production level state. There are several more features I'd like to introduce, like login/logout/userAccount for storing tracked markets and personal settings etc, but that wouldn't really be a learning opportunity for me and would be time spent on something that would never be used or useful to me. It may get done in the future though. 
+
+------------------------------------------------------------------------------------------------------------------------
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
 
 ## Development server
